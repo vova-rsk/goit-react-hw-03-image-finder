@@ -3,6 +3,7 @@ import Searchbar from './components/Searchbar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Button from './components/Button';
 import fetchImages from './services/pixabay-api';
+import scrollTo from './utils';
 
 class App extends Component {
   state = {
@@ -45,8 +46,10 @@ class App extends Component {
             };
           }),
         )
-        .catch(error => console.error(error.message));
-      // .finally();
+        .catch(error => console.error(error.message))
+        .finally(() => {
+          scrollTo();
+        });
     }
   }
 
