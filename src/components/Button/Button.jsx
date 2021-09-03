@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import LoadMoreButton from './Button.styled';
 
-const Button = props => {
+const Button = ({ handleIncrementPage }) => {
   return (
-    <button type="button" onClick={() => console.log('ТЫЦ')}>
+    <LoadMoreButton type="button" onClick={handleIncrementPage}>
       Load more
-    </button>
+    </LoadMoreButton>
   );
 };
 
 export default Button;
+
+Button.propTypes = {
+  handleIncrementPage: PropTypes.func,
+};
