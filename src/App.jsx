@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-function App() {
-  return (
-    <div></div>
-  );
+class App extends PureComponent {
+  state = {};
+
+  render() {
+    return <div>KOKOKO</div>;
+  }
 }
 
 export default App;
