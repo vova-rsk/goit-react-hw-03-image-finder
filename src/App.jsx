@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Searchbar from './components/Searchbar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Button from './components/Button';
+import LoaderSpinner from './components/Loader';
 import fetchImages from './services/pixabay-api';
 import scrollTo from './utils';
 
