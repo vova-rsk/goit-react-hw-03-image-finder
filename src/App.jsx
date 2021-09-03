@@ -6,12 +6,19 @@ import LoaderSpinner from './components/Loader';
 import fetchImages from './services/pixabay-api';
 import scrollTo from './utils';
 
+const STATUS = {
+  IDLE: 'idle',
+  PENDING: 'pending',
+  RESOLVED: 'resolved',
+};
+
 class App extends Component {
   state = {
     isLastPage: false,
     page: 1,
     query: '',
     searchResult: [],
+    status: STATUS.IDLE,
   };
 
   fetchQueryUpdate = query => {
@@ -33,9 +40,12 @@ class App extends Component {
     const isPageIncreased = prevState.page < page;
 
     if (isQueryChanged || isPageIncreased) {
+      this.setState({ status: STATUS.PENDING });
+
       fetchImages(query, page)
         .then(({ hits, totalHits }) =>
           this.setState(prevState => {
+            this.setState({ status: STATUS.RESOLVED });
             return {
               ...prevState,
               searchResult: isQueryChanged
@@ -55,10 +65,11 @@ class App extends Component {
   }
 
   render() {
-    const { searchResult, isLastPage } = this.state;
+    const { searchResult, isLastPage, status } = this.state;
     return (
       <>
         <Searchbar fetchQueryUpdate={this.fetchQueryUpdate} />
+        {status === STATUS.PENDING && <LoaderSpinner />}
         {searchResult && <ImageGallery galleryItems={searchResult} />}
         {!isLastPage && (
           <Button handleIncrementPage={this.handleIncrementPage} />
