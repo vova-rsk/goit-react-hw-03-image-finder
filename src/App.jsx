@@ -45,7 +45,6 @@ class App extends Component {
       fetchImages(query, page)
         .then(({ hits, totalHits }) =>
           this.setState(prevState => {
-            this.setState({ status: STATUS.RESOLVED });
             return {
               ...prevState,
               searchResult: isQueryChanged
@@ -59,6 +58,7 @@ class App extends Component {
         )
         .catch(error => console.error(error.message))
         .finally(() => {
+          this.setState({ status: STATUS.RESOLVED });
           scrollTo();
         });
     }
