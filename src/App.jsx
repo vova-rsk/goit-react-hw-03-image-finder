@@ -14,7 +14,7 @@ const STATUS = {
 
 class App extends Component {
   state = {
-    isLastPage: false,
+    isLastPage: true,
     page: 1,
     query: '',
     searchResult: [],
