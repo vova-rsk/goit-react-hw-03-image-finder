@@ -4,16 +4,14 @@ import ImageGalleryItem from '../ImageGalleryItem';
 import Button from '../../Button';
 import fetchImages from '../../../services/pixabay-api';
 import scrollTo from '../../../utils';
+import Modal from '../../Modal';
 
 export default class ImageGallery extends Component {
   state = {
     isLastPage: true,
     page: 1,
     searchResult: [],
-  };
-
-  handleIncrementPage = () => {
-    this.setState(prevState => ({ ...prevState, page: prevState.page + 1 }));
+    modal: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -51,8 +49,24 @@ export default class ImageGallery extends Component {
     }
   }
 
+  showModal = e => {
+    const index = Number(e.currentTarget.dataset.index);
+    const { searchResult } = this.state;
+    const currentItem = searchResult.find((item, idx) => idx === index);
+    this.setState({ modal: currentItem });
+  };
+
+  closeModal = () => {
+    this.setState({ modal: false });
+  };
+
+  handleIncrementPage = () => {
+    this.setState(prevState => ({ ...prevState, page: prevState.page + 1 }));
+  };
+
   render() {
-    const { searchResult, isLastPage } = this.state;
+    const { searchResult, isLastPage, modal } = this.state;
+    console.log(modal);
     return (
       <>
         <ul className="ImageGallery">
@@ -62,14 +76,23 @@ export default class ImageGallery extends Component {
                 // key={id}
                 key={idx}
                 src={webformatURL}
+                index={idx}
                 dataSrc={largeImageURL}
                 alt={tags}
+                onClick={this.showModal}
               />
             ),
           )}
         </ul>
         {!isLastPage && (
           <Button handleIncrementPage={this.handleIncrementPage} />
+        )}
+        {modal && (
+          <Modal
+            src={modal.largeImageURL}
+            alt={modal.tags}
+            closeModal={this.closeModal}
+          />
         )}
       </>
     );
