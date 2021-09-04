@@ -14,7 +14,7 @@ const fetchImages = (query, page = 1) => {
 
   return fetch(`${baseUrl}?${searchParams.toString()}`).then(response => {
     if (!response.ok) {
-      throw new Error('Oops, something went wrong!');
+      return Promise.rejected(new Error('Oops, something went wrong!'));
     }
     return response.json();
   });

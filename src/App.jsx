@@ -1,79 +1,48 @@
 import React, { Component } from 'react';
 import Searchbar from './components/Searchbar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
-import Button from './components/Button';
 import LoaderSpinner from './components/Loader';
-import fetchImages from './services/pixabay-api';
-import scrollTo from './utils';
 
-const STATUS = {
-  IDLE: 'idle',
-  PENDING: 'pending',
-  RESOLVED: 'resolved',
-};
+// const STATUS = {
+//   IDLE: 'idle',
+//   PENDING: 'pending',
+//   RESOLVED: 'resolved',
+//   ERROR:'error'
+// };
 
 class App extends Component {
   state = {
-    isLastPage: true,
-    page: 1,
     query: '',
-    searchResult: [],
-    status: STATUS.IDLE,
+    status: 'idle',
+    error: '',
   };
 
   fetchQueryUpdate = query => {
     this.setState({ query });
-    this.resetPage();
   };
 
-  resetPage = () => {
-    this.setState({ page: 1 });
+  statusChanging = statusName => {
+    this.setState({ status: statusName });
   };
 
-  handleIncrementPage = () => {
-    this.setState(prevState => ({ ...prevState, page: prevState.page + 1 }));
+  setErrorMessage = message => {
+    this.setState({ error: message });
   };
-
-  componentDidUpdate(prevProps, prevState) {
-    const { query, page } = this.state;
-    const isQueryChanged = prevState.query !== query;
-    const isPageIncreased = prevState.page < page;
-
-    if (isQueryChanged || isPageIncreased) {
-      this.setState({ status: STATUS.PENDING });
-
-      fetchImages(query, page)
-        .then(({ hits, totalHits }) =>
-          this.setState(prevState => {
-            return {
-              ...prevState,
-              searchResult: isQueryChanged
-                ? hits
-                : [...prevState.searchResult, ...hits],
-              isLastPage: isQueryChanged
-                ? hits.length >= totalHits
-                : [...prevState.searchResult, ...hits].length >= totalHits,
-            };
-          }),
-        )
-        .catch(error => console.error(error.message))
-        .finally(() => {
-          this.setState({ status: STATUS.RESOLVED });
-          scrollTo();
-        });
-    }
-  }
 
   render() {
-    const { searchResult, isLastPage, status } = this.state;
+    const { query, status, error } = this.state;
     return (
       <>
         <Searchbar fetchQueryUpdate={this.fetchQueryUpdate} />
-        {status === STATUS.PENDING && <LoaderSpinner />}
-        {searchResult && <ImageGallery galleryItems={searchResult} />}
-        {!isLastPage && (
-          <Button handleIncrementPage={this.handleIncrementPage} />
+        {status === 'pending' && <LoaderSpinner />}
+        {status !== 'error' && (
+          <ImageGallery
+            query={query}
+            statusChanging={this.statusChanging}
+            setErrorMessage={this.setErrorMessage}
+          />
         )}
+        {status === 'error' && <div>{error}</div>}
       </>
     );
   }
