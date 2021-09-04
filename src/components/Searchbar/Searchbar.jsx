@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Header from './Searchbar.styled';
 
 export default class Searchbar extends Component {
   state = {
@@ -23,7 +24,7 @@ export default class Searchbar extends Component {
 
   render() {
     return (
-      <header className="Searchbar">
+      <Header className="Searchbar">
         <form className="SearchForm" onSubmit={this.handleSubmit}>
           <button type="submit" className="SearchForm-button">
             <span className="SearchForm-button-label">Search</span>
@@ -38,7 +39,7 @@ export default class Searchbar extends Component {
             onChange={this.handleInputChange}
           />
         </form>
-      </header>
+      </Header>
     );
   }
 }

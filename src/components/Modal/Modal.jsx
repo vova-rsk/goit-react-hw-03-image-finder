@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Overlay from './Modal.styled';
 
 export default class Modal extends Component {
   componentDidMount() {
@@ -24,11 +25,11 @@ export default class Modal extends Component {
     const { src, alt } = this.props;
 
     return (
-      <div className="Overlay" onClick={this.closingByClick}>
+      <Overlay className="Overlay" onClick={this.closingByClick}>
         <div className="Modal">
           <img src={src} alt={alt} width="800" height="600" />
         </div>
-      </div>
+      </Overlay>
     );
   }
 }

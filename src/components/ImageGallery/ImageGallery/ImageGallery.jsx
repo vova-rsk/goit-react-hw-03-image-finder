@@ -5,6 +5,7 @@ import Button from '../../Button';
 import fetchImages from '../../../services/pixabay-api';
 import scrollTo from '../../../utils';
 import Modal from '../../Modal';
+import List from './ImageGallery.styled';
 
 export default class ImageGallery extends Component {
   state = {
@@ -77,7 +78,7 @@ export default class ImageGallery extends Component {
 
     return (
       <>
-        <ul className="ImageGallery">
+        <List className="ImageGallery">
           {searchResult.map(
             ({ id, webformatURL, largeImageURL, tags }, idx) => (
               <ImageGalleryItem
@@ -91,7 +92,7 @@ export default class ImageGallery extends Component {
               />
             ),
           )}
-        </ul>
+        </List>
         {!isLastPage && (
           <Button handleIncrementPage={this.handleIncrementPage} />
         )}

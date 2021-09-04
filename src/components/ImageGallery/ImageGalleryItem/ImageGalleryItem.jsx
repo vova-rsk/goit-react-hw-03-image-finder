@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Li from './ImageGalleryItem.styled';
 
 const ImageGalleryItem = ({ src, alt, dataSrc, index, onClick }) => {
   return (
-    <li className="ImageGalleryItem">
+    <Li className="ImageGalleryItem">
       <img
         src={src}
         data-src={dataSrc}
@@ -13,7 +14,7 @@ const ImageGalleryItem = ({ src, alt, dataSrc, index, onClick }) => {
         loading="lazy"
         onClick={onClick}
       />
-    </li>
+    </Li>
   );
 };
 
