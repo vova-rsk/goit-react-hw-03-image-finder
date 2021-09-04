@@ -3,12 +3,13 @@ import Searchbar from './components/Searchbar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import LoaderSpinner from './components/Loader';
 
-// const STATUS = {
-//   IDLE: 'idle',
-//   PENDING: 'pending',
-//   RESOLVED: 'resolved',
-//   ERROR:'error'
-// };
+const STATUS = {
+  IDLE: 'idle',
+  PENDING: 'pending',
+  RESOLVED: 'resolved',
+  REJECTED: 'rejected',
+  ERROR: 'error',
+};
 
 class App extends Component {
   state = {
@@ -37,15 +38,15 @@ class App extends Component {
     return (
       <>
         <Searchbar fetchQueryUpdate={this.fetchQueryUpdate} />
-        {status === 'pending' && <LoaderSpinner />}
-        {status !== 'error' && (
+        {status === STATUS.PENDING && <LoaderSpinner />}
+        {status !== STATUS.ERROR && (
           <ImageGallery
             query={query}
             statusChanging={this.statusChanging}
             setErrorMessage={this.setErrorMessage}
           />
         )}
-        {status === 'error' && <div>{error}</div>}
+        {status === STATUS.ERROR && <div>{error}</div>}
       </>
     );
   }
