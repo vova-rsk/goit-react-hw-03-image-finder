@@ -27,7 +27,7 @@ export default class Modal extends Component {
     return (
       <Overlay className="Overlay" onClick={this.closingByClick}>
         <div className="Modal">
-          <img src={src} alt={alt} width="800" height="600" />
+          <img src={src} alt={alt} width="1024" height="768" />
         </div>
       </Overlay>
     );
