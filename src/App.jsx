@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Searchbar from './components/Searchbar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
-import LoaderSpinner from './components/Loader';
+// import LoaderSpinner from './components/Loader';
 
 const STATUS = {
   IDLE: 'idle',
@@ -14,7 +14,7 @@ const STATUS = {
 class App extends Component {
   state = {
     query: '',
-    status: 'idle',
+    status: STATUS.IDLE,
     error: '',
   };
 
@@ -38,12 +38,12 @@ class App extends Component {
     return (
       <>
         <Searchbar onSubmit={this.fetchQueryUpdate} />
-        {status === STATUS.PENDING && <LoaderSpinner />}
         {status !== STATUS.ERROR && (
           <ImageGallery
             query={query}
             statusChanging={this.statusChanging}
             setErrorMessage={this.setErrorMessage}
+            currentStatus={status}
           />
         )}
         {status === STATUS.ERROR && <div>{error}</div>}

@@ -6,6 +6,7 @@ import fetchImages from '../../../services/pixabay-api';
 import scrollTo from '../../../utils';
 import Modal from '../../Modal';
 import List from './ImageGallery.styled';
+import LoaderSpinner from '../../Loader/';
 
 export default class ImageGallery extends Component {
   state = {
@@ -20,13 +21,17 @@ export default class ImageGallery extends Component {
     const { query, statusChanging, setErrorMessage } = this.props;
 
     /*check for changes in query or page in local state.
-     * If was new search or click on LoadMore btn - then makes fetch
+     * If was new search or clicked on LoadMore btn - then makes fetch
      */
     const isQueryChanged = prevProps.query !== query;
     const isPageIncreased = prevState.page < page;
 
     if (isQueryChanged || isPageIncreased) {
       statusChanging('pending');
+
+      if (isQueryChanged) {
+        this.setState({ searchResult: [] });
+      }
 
       fetchImages(query, isQueryChanged ? 1 : page)
         .then(({ hits, totalHits }) =>
@@ -78,6 +83,8 @@ export default class ImageGallery extends Component {
 
   render() {
     const { searchResult, isLastPage, modal } = this.state;
+    const isShowLoader = this.props.currentStatus === 'pending' ? true : false;
+    const isShowLoadButton = !isLastPage && !isShowLoader ? true : false;
 
     return (
       <>
@@ -96,9 +103,10 @@ export default class ImageGallery extends Component {
             ),
           )}
         </List>
-        {!isLastPage && (
+        {isShowLoadButton && (
           <Button handleIncrementPage={this.handleIncrementPage} />
         )}
+        {isShowLoader && <LoaderSpinner />}
         {modal && (
           <Modal
             src={modal.largeImageURL}
@@ -115,4 +123,5 @@ ImageGallery.propTypes = {
   query: PropTypes.string.isRequired,
   statusChanging: PropTypes.func.isRequired,
   setErrorMessage: PropTypes.func.isRequired,
+  currentStatus: PropTypes.string.isRequired,
 };
