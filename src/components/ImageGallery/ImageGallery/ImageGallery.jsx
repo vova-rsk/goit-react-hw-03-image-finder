@@ -19,6 +19,9 @@ export default class ImageGallery extends Component {
     const { page } = this.state;
     const { query, statusChanging, setErrorMessage } = this.props;
 
+    /*check for changes in query or page in local state.
+     * If was new search or click on LoadMore btn - then makes fetch
+     */
     const isQueryChanged = prevProps.query !== query;
     const isPageIncreased = prevState.page < page;
 
