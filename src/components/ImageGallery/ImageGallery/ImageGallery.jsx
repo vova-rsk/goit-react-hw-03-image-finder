@@ -89,19 +89,16 @@ export default class ImageGallery extends Component {
     return (
       <>
         <List className="ImageGallery">
-          {searchResult.map(
-            ({ id, webformatURL, largeImageURL, tags }, idx) => (
-              <ImageGalleryItem
-                // key={id}
-                key={idx}
-                src={webformatURL}
-                index={idx}
-                dataSrc={largeImageURL}
-                alt={tags}
-                onClick={this.showModal}
-              />
-            ),
-          )}
+          {searchResult.map(({ webformatURL, largeImageURL, tags }, idx) => (
+            <ImageGalleryItem
+              key={idx}
+              src={webformatURL}
+              index={idx}
+              dataSrc={largeImageURL}
+              alt={tags}
+              onClick={this.showModal}
+            />
+          ))}
         </List>
         {isShowLoadButton && (
           <Button handleIncrementPage={this.handleIncrementPage} />
