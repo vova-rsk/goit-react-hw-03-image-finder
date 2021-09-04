@@ -37,7 +37,7 @@ class App extends Component {
     const { query, status, error } = this.state;
     return (
       <>
-        <Searchbar fetchQueryUpdate={this.fetchQueryUpdate} />
+        <Searchbar onSubmit={this.fetchQueryUpdate} />
         {status === STATUS.PENDING && <LoaderSpinner />}
         {status !== STATUS.ERROR && (
           <ImageGallery

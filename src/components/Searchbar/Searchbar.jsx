@@ -11,10 +11,10 @@ export default class Searchbar extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { fetchQueryUpdate } = this.props;
+    const { onSubmit } = this.props;
     const { query } = this.state;
 
-    if (query) fetchQueryUpdate(query);
+    if (query) onSubmit(query);
   };
 
   /*method for updating query-key in local state*/
@@ -45,5 +45,5 @@ export default class Searchbar extends Component {
 }
 
 Searchbar.propTypes = {
-  fetchQueryUpdate: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
