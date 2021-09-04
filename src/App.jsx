@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Searchbar from './components/Searchbar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
-// import LoaderSpinner from './components/Loader';
+import AppContainer from './App.styled';
 
 const STATUS = {
   IDLE: 'idle',
@@ -11,7 +11,7 @@ const STATUS = {
   ERROR: 'error',
 };
 
-class App extends Component {
+export default class App extends Component {
   state = {
     query: '',
     status: STATUS.IDLE,
@@ -36,7 +36,7 @@ class App extends Component {
   render() {
     const { query, status, error } = this.state;
     return (
-      <>
+      <AppContainer>
         <Searchbar onSubmit={this.fetchQueryUpdate} />
         {status !== STATUS.ERROR && (
           <ImageGallery
@@ -47,9 +47,7 @@ class App extends Component {
           />
         )}
         {status === STATUS.ERROR && <div>{error}</div>}
-      </>
+      </AppContainer>
     );
   }
 }
-
-export default App;
