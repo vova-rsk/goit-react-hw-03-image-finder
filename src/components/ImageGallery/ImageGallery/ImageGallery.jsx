@@ -27,14 +27,19 @@ export default class ImageGallery extends Component {
       fetchImages(query, isQueryChanged ? 1 : page)
         .then(({ hits, totalHits }) =>
           this.setState(prevState => {
+            const updatedPage = isQueryChanged ? 1 : prevState.page;
+            const updatedSearchResult = isQueryChanged
+              ? hits
+              : [...prevState.searchResult, ...hits];
+            const updatedIsLastPage = isQueryChanged
+              ? hits.length >= totalHits
+              : [...prevState.searchResult, ...hits].length >= totalHits;
+
             return {
-              page: isQueryChanged ? 1 : prevState.page,
-              searchResult: isQueryChanged
-                ? hits
-                : [...prevState.searchResult, ...hits],
-              isLastPage: isQueryChanged
-                ? hits.length >= totalHits
-                : [...prevState.searchResult, ...hits].length >= totalHits,
+              ...prevState,
+              page: updatedPage,
+              searchResult: updatedSearchResult,
+              isLastPage: updatedIsLastPage,
             };
           }),
         )
@@ -49,6 +54,7 @@ export default class ImageGallery extends Component {
     }
   }
 
+  /*method for showing the modal*/
   showModal = e => {
     const index = Number(e.currentTarget.dataset.index);
     const { searchResult } = this.state;
@@ -56,17 +62,19 @@ export default class ImageGallery extends Component {
     this.setState({ modal: currentItem });
   };
 
+  /*method for closing the modal*/
   closeModal = () => {
     this.setState({ modal: false });
   };
 
+  /*method for incrementing the page number by 1*/
   handleIncrementPage = () => {
     this.setState(prevState => ({ ...prevState, page: prevState.page + 1 }));
   };
 
   render() {
     const { searchResult, isLastPage, modal } = this.state;
-    console.log(modal);
+
     return (
       <>
         <ul className="ImageGallery">

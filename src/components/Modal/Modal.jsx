@@ -10,10 +10,12 @@ export default class Modal extends Component {
     window.removeEventListener('keydown', this.closingByEsc);
   }
 
+  /*method for closing modal by pressing Esc*/
   closingByEsc = e => {
     if (e.code === 'Escape') this.props.closeModal();
   };
 
+  /*method for closing modal by clicking on overlay*/
   closingByClick = e => {
     if (e.currentTarget === e.target) this.props.closeModal();
   };

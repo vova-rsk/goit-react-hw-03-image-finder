@@ -17,14 +17,17 @@ class App extends Component {
     error: '',
   };
 
+  /*method for getting query-data from components*/
   fetchQueryUpdate = query => {
     this.setState({ query });
   };
 
+  /*method for setting status in local state*/
   statusChanging = statusName => {
     this.setState({ status: statusName });
   };
 
+  /*method for setting error-message in local state*/
   setErrorMessage = message => {
     this.setState({ error: message });
   };

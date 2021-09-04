@@ -6,6 +6,7 @@ export default class Searchbar extends Component {
     query: '',
   };
 
+  /*method for submiting form*/
   handleSubmit = e => {
     e.preventDefault();
 
@@ -15,6 +16,7 @@ export default class Searchbar extends Component {
     if (query) fetchQueryUpdate(query);
   };
 
+  /*method for updating query-key in local state*/
   handleInputChange = e => {
     this.setState({ query: e.currentTarget.value.trim() });
   };
