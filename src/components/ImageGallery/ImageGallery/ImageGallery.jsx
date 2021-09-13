@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImageGalleryItem from '../ImageGalleryItem';
 import Button from '../../Button';
-import fetchImages from '../../../services/pixabay-api';
+import pixabayApi from '../../../services/pixabay-api';
 import scrollTo from '../../../utils';
 import Modal from '../../Modal';
 import List from './ImageGallery.styled';
@@ -33,7 +33,8 @@ export default class ImageGallery extends Component {
         this.setState({ searchResult: [] });
       }
 
-      fetchImages(query, isQueryChanged ? 1 : page)
+      pixabayApi
+        .fetchImages(query, isQueryChanged ? 1 : page)
         .then(({ hits, totalHits }) =>
           this.setState(prevState => {
             const updatedPage = isQueryChanged ? 1 : prevState.page;
