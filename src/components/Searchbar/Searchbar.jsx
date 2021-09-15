@@ -17,11 +17,6 @@ export default class Searchbar extends Component {
     if (query) onSubmit(query);
   };
 
-  /*method for updating query-key in local state*/
-  handleInputChange = e => {
-    this.setState({ query: e.currentTarget.value.trim() });
-  };
-
   render() {
     const { query } = this.state;
     return (
@@ -37,7 +32,9 @@ export default class Searchbar extends Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            onChange={this.handleInputChange}
+            onChange={e =>
+              this.setState({ query: e.currentTarget.value.trim() })
+            }
             value={query}
           />
         </form>
