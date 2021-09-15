@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Searchbar from './components/Searchbar';
-import ImageGallery from './components/ImageGallery/ImageGallery';
+import ImageGallery from './components/Gallery/ImageGallery';
 import AppContainer from './App.styled';
 
 const STATUS = {

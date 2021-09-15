@@ -6,14 +6,14 @@ import pixabayApi from '../../../services/pixabay-api';
 import scrollTo from '../../../utils';
 import Modal from '../../Modal';
 import List from './ImageGallery.styled';
-import LoaderSpinner from '../../Loader/';
+import LoaderSpinner from '../../Loader';
 
 export default class ImageGallery extends Component {
   state = {
     isLastPage: true,
     page: 1,
     searchResult: [],
-    modal: false,
+    selectedItem: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -64,52 +64,37 @@ export default class ImageGallery extends Component {
     }
   }
 
-  /*method for showing the modal*/
-  showModal = e => {
-    const index = Number(e.currentTarget.dataset.index);
-    const { searchResult } = this.state;
-    const currentItem = searchResult.find((item, idx) => idx === index);
-    this.setState({ modal: currentItem });
-  };
-
-  /*method for closing the modal*/
-  closeModal = () => {
-    this.setState({ modal: false });
-  };
-
-  /*method for incrementing the page number by 1*/
-  handleIncrementPage = () => {
-    this.setState(prevState => ({ ...prevState, page: prevState.page + 1 }));
-  };
-
   render() {
-    const { searchResult, isLastPage, modal } = this.state;
+    const { searchResult, isLastPage, selectedItem } = this.state;
     const isShowLoader = this.props.currentStatus === 'pending' ? true : false;
     const isShowLoadButton = !isLastPage && !isShowLoader ? true : false;
+    const isModalShow = selectedItem !== null;
 
     return (
       <>
         <List className="ImageGallery">
-          {searchResult.map(({ webformatURL, largeImageURL, tags }, idx) => (
+          {searchResult.map(({ webformatURL, tags }, idx) => (
             <ImageGalleryItem
               key={idx}
               src={webformatURL}
-              index={idx}
-              dataSrc={largeImageURL}
               alt={tags}
-              onClick={this.showModal}
+              onClick={() => this.setState({ selectedItem: idx })}
             />
           ))}
         </List>
         {isShowLoadButton && (
-          <Button handleIncrementPage={this.handleIncrementPage} />
+          <Button
+            handleIncrementPage={() =>
+              this.setState(prevState => ({ page: prevState.page + 1 }))
+            }
+          />
         )}
         {isShowLoader && <LoaderSpinner />}
-        {modal && (
+        {isModalShow && (
           <Modal
-            src={modal.largeImageURL}
-            alt={modal.tags}
-            closeModal={this.closeModal}
+            src={searchResult[selectedItem].largeImageURL}
+            alt={searchResult[selectedItem].tags}
+            closeModal={() => this.setState({ selectedItem: null })}
           />
         )}
       </>
